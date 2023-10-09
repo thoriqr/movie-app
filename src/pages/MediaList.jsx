@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchMedia } from "../api/themoviedbApi";
 import { useParams } from "react-router-dom";
-import { capitalizeFirstLetter } from "../utils/utils";
 import MediaCard from "../components/Card/MediaCard";
 import { getImgUrl, truncateString } from "../utils/utils";
 import Loading from "../components/Loading";
 import MediaFilter from "../components/MediaFilter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronDown,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 
 const MediaList = () => {
   const { mediaType } = useParams();
@@ -16,7 +18,7 @@ const MediaList = () => {
   const [sortBy, setSortBy] = useState(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [openFilters, setOpenFilters] = useState(false)
+  const [openFilters, setOpenFilters] = useState(false);
   const {
     data,
     status,
@@ -47,53 +49,50 @@ const MediaList = () => {
   useEffect(() => {
     setSelectedGenres([]);
     setSortBy(null);
-    setOpenFilters(false)
+    setOpenFilters(false);
   }, [mediaType, setSelectedGenres, setSortBy, setOpenFilters]);
 
   return (
     <div className="max-w-full xl:max-w-7xl xl:mx-auto">
       <div className="mb-5 mt-5">
-        <p className="mt-5 mb-5 px-4 text-xl">
+        <p className="mt-5 mb-5 px-2 lg:px-4 text-xl">
           {mediaType === "movie" ? "Explore Movies" : "Explore TV Shows"}
         </p>
-
-        {/* <MediaFilter
-          mediaType={mediaType}
-          selectedGenres={selectedGenres}
-          setSelectedGenres={setSelectedGenres}
-          setSortBy={setSortBy}
-          startDate={startDate}
-          setStartDate={setStartDate}
-          endDate={endDate}
-          setEndDate={setEndDate}
-        /> */}
       </div>
       <div className="">
-        <div className="px-10 mb-5">
-          <div className="border border-white">
-            <div onClick={() => setOpenFilters(!openFilters)} className="flex justify-between cursor-pointer items-center border-b-[1px] border-gray-600">
+        <div className="px-2 lg:px-10 mb-5">
+          <div className="w-full border border-white rounded-sm">
+            <div
+              onClick={() => setOpenFilters(!openFilters)}
+              className="flex justify-between cursor-pointer items-center border-b-[1px] border-gray-600"
+            >
               <p className="p-2">Filters</p>
               <span className="px-4">
-                {!openFilters ? <FontAwesomeIcon icon={faChevronRight} /> : <FontAwesomeIcon icon={faChevronDown} />}
+                {!openFilters ? (
+                  <FontAwesomeIcon icon={faChevronRight} />
+                ) : (
+                  <FontAwesomeIcon icon={faChevronDown} />
+                )}
               </span>
             </div>
-            {openFilters && <MediaFilter
-            mediaType={mediaType}
-            selectedGenres={selectedGenres}
-            setSelectedGenres={setSelectedGenres}
-            setSortBy={setSortBy}
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-          />}
+            {openFilters && (
+              <MediaFilter
+                mediaType={mediaType}
+                selectedGenres={selectedGenres}
+                setSelectedGenres={setSelectedGenres}
+                setSortBy={setSortBy}
+                startDate={startDate}
+                setStartDate={setStartDate}
+                endDate={endDate}
+                setEndDate={setEndDate}
+              />
+            )}
           </div>
-          
         </div>
         {status === "loading" ? (
           <Loading height="h-screen" />
-        ) : error ? (
-          <p>{error.message}</p>
+        ) : status === "error" ? (
+          <p className="text-[#F5F9FF]">{error.message}</p>
         ) : (
           <>
             {data?.pages.map((page, pageNumber) => (
@@ -122,25 +121,27 @@ const MediaList = () => {
             ))}
             {data?.pages.every((page) => page.results.length === 0) && (
               <div className="h-screen">
-                <p className="text-center text-[#F5F9FF]">{`No Any ${capitalizeFirstLetter(
-                  mediaType
-                )}'s Found`}</p>
-              </div>
+              <p className="text-center text-[#F5F9FF]">{`No ${
+                mediaType === "movie" ? "Movies" : "TV shows"
+              } found.`}</p>
+            </div>
             )}
-            <div className="text-center mt-6 mb-6">
-              <button
-                className="text-white"
-                onClick={() => fetchNextPage()}
-                disabled={!hasNextPage || isFetchingNextPage}
-              >
-                {isFetchingNextPage ? (
-                  <Loading />
-                ) : hasNextPage ? (
-                  "Load More"
-                ) : (
-                  ""
-                )}
-              </button>
+            <div className="text-center mt-6 mb-6 text-sm md:text-base">
+              {hasNextPage ? (
+                <button
+                  className="items-center border-2 border-gray-500 rounded-md p-1 w-36"
+                  onClick={() => fetchNextPage()}
+                  disabled={!hasNextPage || isFetchingNextPage}
+                >
+                  {isFetchingNextPage ? (
+                    <p className="text-gray-400">Loading...</p>
+                  ) : (
+                    hasNextPage && <p className="text-[#F5F9FF]">Load More</p>
+                  )}
+                </button>
+              ) : (
+                ""
+              )}
             </div>
           </>
         )}

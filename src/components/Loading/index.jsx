@@ -8,7 +8,7 @@ const Loading = ({ height }) => {
         icon={faSpinner}
         spinPulse
         size="xl"
-        className="absolute top-2/4 text-white"
+        className="absolute top-2/4 text-[#F5F9FF]"
       />
     </div>
   );

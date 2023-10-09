@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useParams, useSearchParams } from "react-router-dom";
+import { NavLink, Outlet, useSearchParams } from "react-router-dom";
 
 const NavSearch = () => {
   const [searchParams] = useSearchParams();

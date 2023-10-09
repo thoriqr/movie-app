@@ -3,7 +3,7 @@ import Select from "react-select";
 import { useQuery } from "@tanstack/react-query";
 import { getGenres } from "../../../api/themoviedbApi";
 
-const Genres = ({ selectedGenres, setSelectedGenres, mediaType }) => {
+const Genres = ({ setSelectedGenres, mediaType }) => {
   const { data: genres } = useQuery({
     queryFn: () => getGenres({ mediaType }),
     queryKey: ["genres", mediaType],
@@ -17,8 +17,6 @@ const Genres = ({ selectedGenres, setSelectedGenres, mediaType }) => {
   const handleGenreChange = (selectedOptions) => {
     setSelectedGenres(selectedOptions.map((option) => option.value));
   };
-
-  console.log(selectedGenres);
 
   return (
     <div className="">

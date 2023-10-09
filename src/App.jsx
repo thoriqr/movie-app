@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import Home from "./pages/Home";
 import MediaList from "./pages/MediaList";
 import MediaDetails from "./pages/MediaDetails";
-import MediaGenre from "./pages/MediaGenre";
+import MediaSingleGenre from "./pages/MediaSingleGenre";
 import SearchResults from "./pages/SearchResults";
 import NavSearch from "./components/NavSearch";
 import PeopleDetails from "./pages/PeopleDetails";
@@ -42,7 +42,7 @@ function App() {
         },
         {
           path: "/genre/:genreId/:mediaType",
-          element: <MediaGenre />,
+          element: <MediaSingleGenre />,
         },
       ],
     },

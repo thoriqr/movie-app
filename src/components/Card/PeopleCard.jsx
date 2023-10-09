@@ -21,8 +21,11 @@ const PeopleCard = ({ credit, mediaType }) => {
           {mediaType === "movie" ? credit?.character : ""}
           {mediaType === "tv" ? credit.roles[0].character : ""}
         </p>
-        <p className="text-sm font-thin text-gray-300 flex flex-wrap">{mediaType === "tv" ? `${credit.roles[0].episode_count} Episodes` : ""}
-  </p>
+        <p className="text-sm font-thin text-gray-300 flex flex-wrap">
+          {mediaType === "tv"
+            ? `${credit.roles[0].episode_count} Episodes`
+            : ""}
+        </p>
       </div>
     </div>
   );

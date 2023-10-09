@@ -1,35 +1,36 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendar,
-  faMinus,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import "react-datepicker/dist/react-datepicker.css";
 
 const DatePick = ({ setStartDate, setEndDate, mediaType }) => {
-  const [selectStartDate, setSelectStartDate] = useState(null);
-  const [selectEndDate, setSelectEndDate] = useState(null);
-  const [storeStartDate, setStoreStartDate] = useState("");
-  const [storeEndDate, setStoreEndDate] = useState("");
+  const currentDate = new Date();
+
+  // Calculate the date two years in the future
+  const twoYearsFromNow = new Date();
+  twoYearsFromNow.setFullYear(currentDate.getFullYear() + 2);
+
+  const [selectStartDate, setSelectStartDate] = useState("");
+  const [selectEndDate, setSelectEndDate] = useState(twoYearsFromNow);
 
   useEffect(() => {
     setStartDate("");
     setEndDate("");
-    setSelectStartDate(null);
-    setSelectEndDate(null);
-    setStoreStartDate("");
-    setStoreEndDate("");
+    setSelectStartDate("");
+    setSelectEndDate(twoYearsFromNow);
+
   }, [
     mediaType,
     setStartDate,
     setEndDate,
     setSelectStartDate,
     setSelectEndDate,
-    setStoreStartDate,
-    setStoreEndDate,
   ]);
 
   const formatDate = (date) => {
@@ -42,45 +43,21 @@ const DatePick = ({ setStartDate, setEndDate, mediaType }) => {
   const handleStartDateChange = (date) => {
     setSelectStartDate(date);
     const formattedDate = formatDate(date);
-    setStoreStartDate(formattedDate);
+    setStartDate(formattedDate);
   };
 
   const handleEndDateChange = (date) => {
     setSelectEndDate(date);
     const formattedDate = formatDate(date);
-    setStoreEndDate(formattedDate);
-  };
-
-  const handleDateFilter = () => {
-    if (storeStartDate === "" || storeEndDate === "") {
-      setStartDate("");
-      setEndDate("");
-    } else {
-      setStartDate(storeStartDate);
-      setEndDate(storeEndDate);
-    }
-  };
-
-  console.log("storing start date", storeStartDate);
-  console.log("storing end date", storeEndDate);
-
-  const resetCalendar = () => {
-    // Set the selected dates to null to clear the selections
-    setSelectStartDate(null);
-    setSelectEndDate(null);
-    // Reset the formatted date strings to empty strings
-    setStartDate("");
-    setEndDate("");
-    setStoreStartDate("");
-    setStoreEndDate("");
+    setEndDate(formattedDate);
   };
 
   return (
     <>
-      <div className="relative text-white text-sm px-2 pt-2">
-        <p className="">Release Dates</p>
-        <div className="flex justify-between pt-2">
-          <p>from</p>
+      <div className="relative text-sm px-2 py-3 w-full">
+        <p className="mb-2 font-light text-gray-200">Release Dates</p>
+        <div className="flex justify-between">
+          <p className="font-light text-gray-200">from</p>
           <div className="relative w-11/12 flex">
             <DatePicker
               id="releaseDate.gte"
@@ -95,11 +72,11 @@ const DatePick = ({ setStartDate, setEndDate, mediaType }) => {
               autoComplete="off"
               todayButton="Today"
             />
-            {selectStartDate !== null && (
+            {selectStartDate !== "" && (
               <button
                 onClick={() => {
-                  setSelectStartDate(null);
-                  setStoreStartDate("");
+                  setSelectStartDate("");
+                  setStartDate("");
                 }}
                 className="absolute right-0 text-black items-center px-2 py-1"
               >
@@ -109,18 +86,12 @@ const DatePick = ({ setStartDate, setEndDate, mediaType }) => {
             <span className="text-black absolute top-0 left-0 items-center px-2 py-1">
               <FontAwesomeIcon icon={faCalendar} />
             </span>
-            <button
-              onClick={handleDateFilter}
-              className="text-white w-60 border border-white ml-2"
-            >
-              OK
-            </button>
           </div>
         </div>
       </div>
       <div className="relative text-white text-sm px-2 py-3">
         <div className="flex justify-between">
-          <p>to</p>
+          <p className="font-light text-gray-200">to</p>
           <div className="relative w-11/12 flex">
             <DatePicker
               id="releaseDate.lte"
@@ -135,11 +106,11 @@ const DatePick = ({ setStartDate, setEndDate, mediaType }) => {
               autoComplete="off"
               todayButton="Today"
             />
-            {selectEndDate !== null && (
+            {selectEndDate !== "" && (
               <button
                 onClick={() => {
-                  setSelectEndDate(null);
-                  setStoreEndDate("");
+                  setSelectEndDate("");
+                  setEndDate("");
                 }}
                 className="absolute right-0 text-black items-center px-2 py-1"
               >
@@ -149,13 +120,6 @@ const DatePick = ({ setStartDate, setEndDate, mediaType }) => {
             <span className="text-black absolute top-0 left-0 items-center px-2 py-1">
               <FontAwesomeIcon icon={faCalendar} />
             </span>
-
-            <button
-              className="text-white w-60 border border-white ml-2"
-              onClick={resetCalendar}
-            >
-              Clear
-            </button>
           </div>
         </div>
       </div>

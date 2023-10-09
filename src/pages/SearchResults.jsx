@@ -75,7 +75,7 @@ const SearchResults = () => {
     <>
       {status === "loading" ? (
         <Loading height="h-screen" />
-      ) : error ? (
+      ) : status === "error" ? (
         <div className="">{error.message}</div>
       ) : (
         <div className="">

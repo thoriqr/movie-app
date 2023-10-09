@@ -99,7 +99,7 @@ const Search = () => {
               value={query}
               onKeyUp={handleKeyPress}
               onChange={handleInputChange}
-              className="px-4 py-2 border border-gray-700 rounded-none focus:outline-none w-full bg-[#030712] text-[#F5F9FF] font-Inter font-semibold text-lg placeholder:italic placeholder:font-normal"
+              className="px-4 py-2 border border-gray-700 rounded-none focus:outline-none w-full bg-[#030712] text-[#F5F9FF] font-Inter font-semibold text-sm md:text-lg placeholder:italic placeholder:font-normal"
             />
             <div className="w-full rounded rounded-t-none bg-[#030712] border border-t-0 border-[#32343C] relative ">
               <div className="font-semibold text-[#F5F9FF] pt-2">

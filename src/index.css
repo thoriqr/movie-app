@@ -6,7 +6,7 @@
   background-color: #030712;
   margin: 0;
   padding: 0;
-  @apply font-Inter text-white;
+  @apply font-Inter text-[#F5F9FF];
 }
 
 /* width */
